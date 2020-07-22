@@ -1,4 +1,5 @@
 # Maven
+
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -20,3 +21,20 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package -DskipTests'
+
+- task: FortifySCA@6
+  inputs:
+    runBuildTranslate: true
+    applicationType: 'java'
+    buildSourceVersion: '11'
+    fortifyBuildId: 'webgoat'
+    runFortifyRulepackUpdate: false
+    runFortifyClean: true
+    scaVerbose: false
+    scaDebug: false
+    runFortifyScan: true
+    fortifyScanType: 'LocalScan'
+    runFortifyUpload: true
+    fortifyServerName: 'Fortify on prem'
+    fortifyApplicationName: 'Azure test'
+    fortifyApplicationVersion: '1'
